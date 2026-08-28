@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "name": "web",
+      "path": "web",
+    },
+    {
+      "name": "service",
+      "path": "service",
+    },
+    {
+      "name": "root",
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "js/ts.preferences.organizeImports": {
+      "typeOrder": "auto",
+    },
+    "editor.codeActionsOnSave": {
+      "source.removeUnusedImports": "explicit",
+      "source.sortImports": "always",
+    },
+  },
+  "extensions": {
+    "recommendations": [],
+  },
+}
