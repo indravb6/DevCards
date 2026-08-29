@@ -1,4 +1,5 @@
 import FlashCard from "@/features/FlashCard/FlashCard";
+import { api } from "../../../lib/api";
 
 export default async function FlashcardsPage({
   params,
@@ -8,6 +9,7 @@ export default async function FlashcardsPage({
   }>;
 }) {
   const { skillId } = await params;
+  const skill = await api.getSkill(skillId);
 
-  return <FlashCard skillId={skillId} />;
+  return <FlashCard skill={skill} />;
 }

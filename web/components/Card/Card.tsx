@@ -477,7 +477,6 @@ export default function Card({
                   [&_h1]:text-zinc-950
 
                   [&_h2]:mb-3
-                  [&_h2]:mt-8
                   [&_h2]:text-xl
                   [&_h2]:font-bold
                   [&_h2]:text-zinc-950

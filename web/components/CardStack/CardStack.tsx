@@ -1,16 +1,10 @@
 "use client";
 
 import Card from "@/components/Card/Card";
-
-type CardData = {
-  id: number;
-  question: string;
-  answer: string;
-  learnMore?: string;
-};
+import { FlashCardData } from "../../lib/model";
 
 type CardStackProps = {
-  cards: CardData[];
+  cards: FlashCardData[];
   currentIndex: number;
   onNext: () => void;
 };
@@ -35,7 +29,7 @@ export default function CardStack({ cards, currentIndex, onNext }: CardStackProp
               <Card
                 question={card.question}
                 answer={card.answer}
-                learnMore={card.learnMore}
+                learnMore={card.learn_more}
                 interactive={isActive}
                 blurContent={!isActive}
                 onNext={isActive ? onNext : undefined}
