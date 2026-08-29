@@ -47,7 +47,7 @@ jobs:
               npm ci
               npm run build
 
-              pm2 reload devcards-client || pm2 start npm --name devcards-client -- start
+              pm2 reload devcards-client || pm2 start npm --name devcards-client -- start -- -p 4000
 
               pm2 save
             ) &
