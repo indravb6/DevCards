@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+from urllib.parse import urlparse
+
 from dotenv import load_dotenv
 import os
 from pathlib import Path
@@ -27,9 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = []
+ORIGINS = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
+ALLOWED_HOSTS = [[urlparse(ORIGIN).hostname for ORIGIN in ORIGINS if ORIGIN]]
 
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -62,7 +66,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [os.getenv("CORS_ALLOWED_ORIGIN")]
+CORS_ALLOWED_ORIGINS = ORIGINS
 
 ROOT_URLCONF = "config.urls"
 
