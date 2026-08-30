@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import CardStack from "@/components/CardStack/CardStack";
+import { animate } from "motion";
+import { useMotionValue } from "motion/react";
 import { api } from "../../lib/api";
 import { FlashCardData, SkillData } from "../../lib/model";
 
@@ -19,6 +21,8 @@ export default function FlashCard({ skill }: FlashCardProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [page, setPage] = useState(1);
 
+  const y = useMotionValue(0);
+
   // NEW
   const [hasMore, setHasMore] = useState(true);
 
@@ -29,7 +33,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
     let cancelled = false;
 
     const loadInitialCards = async () => {
-      const newCards = await api.getFlashcards(skill.id, page);
+      const newCards = await api.getFlashcards(skill.slug, page);
 
       if (cancelled) return;
 
@@ -67,7 +71,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
     let cancelled = false;
 
     const loadNextPage = async () => {
-      const newCards = await api.getFlashcards(skill.id, nextPage);
+      const newCards = await api.getFlashcards(skill.slug, nextPage);
 
       if (cancelled) return;
 
@@ -104,6 +108,8 @@ export default function FlashCard({ skill }: FlashCardProps) {
    */
   const handleNext = () => {
     setCurrentIndex((current) => current + 1);
+
+    y.set(0);
   };
 
   /*
@@ -111,6 +117,8 @@ export default function FlashCard({ skill }: FlashCardProps) {
    */
   const handlePrev = () => {
     setCurrentIndex((current) => Math.max(current - 1, 0));
+
+    y.set(0);
   };
 
   /*
@@ -125,7 +133,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
           {/* Header */}
           <div className="flex items-center justify-between">
             <a
-              href="/"
+              href={`/${skill.category.slug}`}
               className="
             flex
             items-center
@@ -159,7 +167,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
                 <p className="mt-2 text-sm text-zinc-500">You've finished this deck.</p>
               </div>
             ) : (
-              <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} />
+              <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} y={y} />
             )}
           </div>
 
@@ -168,7 +176,6 @@ export default function FlashCard({ skill }: FlashCardProps) {
             <button
               type="button"
               onClick={handlePrev}
-              disabled={currentIndex === 0 || isFinished}
               className="
             text-sm
             text-zinc-400
@@ -176,6 +183,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
             hover:text-zinc-900
             disabled:pointer-events-none
             disabled:opacity-20
+            cursor-pointer
           "
             >
               ← Previous
@@ -192,6 +200,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
             hover:text-zinc-900
             disabled:pointer-events-none
             disabled:opacity-20
+            cursor-pointer
           "
             >
               Next →
@@ -220,7 +229,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
 
         <div className="flex items-center justify-between">
           <a
-            href="/"
+            href={`/${skill.category.slug}`}
             className="
               flex
               items-center
@@ -232,7 +241,6 @@ export default function FlashCard({ skill }: FlashCardProps) {
             "
           >
             <ArrowLeft size={16} />
-
             <span className="capitalize">{skill.name}</span>
           </a>
 
@@ -244,7 +252,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
         {/* Card */}
 
         <div className="flex flex-1 items-center justify-center">
-          <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} />
+          <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} y={y} />
         </div>
 
         {/* Navigation */}
@@ -252,7 +260,14 @@ export default function FlashCard({ skill }: FlashCardProps) {
         <div className="flex items-center justify-center gap-6 pb-4">
           <button
             type="button"
-            onClick={handlePrev}
+            onClick={async () => {
+              handlePrev();
+              y.set(-900);
+              await animate(y, 0, {
+                duration: 0.2,
+                ease: "easeIn",
+              });
+            }}
             disabled={currentIndex === 0}
             className="
               text-sm
@@ -261,6 +276,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
               hover:text-zinc-900
               disabled:pointer-events-none
               disabled:opacity-20
+              cursor-pointer
             "
           >
             ← Previous
@@ -268,12 +284,20 @@ export default function FlashCard({ skill }: FlashCardProps) {
 
           <button
             type="button"
-            onClick={handleNext}
+            onClick={async () => {
+              await animate(y, -900, {
+                duration: 0.2,
+                ease: "easeIn",
+              });
+
+              handleNext();
+            }}
             className="
               text-sm
               text-zinc-400
               transition
               hover:text-zinc-900
+              cursor-pointer
             "
           >
             Next →

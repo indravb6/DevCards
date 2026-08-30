@@ -3,20 +3,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { api } from "@/lib/api";
-import { getIcon } from "../../../lib/icons";
+import Footer from "../../components/Footer/Footer";
+import { getIcon } from "../../lib/icons";
 
-type Props = {
-  params: Promise<{
-    categoryId: string;
-  }>;
-};
+type Props = { params: Promise<{ category: string }> };
 
 export default async function CategoryPage({ params }: Props) {
-  const { categoryId } = await params;
+  const { category: categorySlug } = await params;
 
-  const [categories, skills] = await Promise.all([api.getCategories(), api.getSkills(categoryId)]);
+  const [categories, skills] = await Promise.all([
+    api.getCategories(),
+    api.getSkills(categorySlug),
+  ]);
 
-  const category = categories.find((item) => item.id === categoryId);
+  const category = categories.find((item) => item.slug === categorySlug);
 
   if (!category) {
     notFound();
@@ -29,7 +29,7 @@ export default async function CategoryPage({ params }: Props) {
       <div className="mx-auto w-full max-w-xl px-6 py-12">
         {/* Back */}
         <Link
-          href="/categories"
+          href="/"
           className="
             mb-8
             inline-flex
@@ -75,7 +75,7 @@ export default async function CategoryPage({ params }: Props) {
             return (
               <Link
                 key={skill.id}
-                href={`/flashcards/${skill.id}`}
+                href={`/flashcards/${skill.slug}`}
                 className="
                 group
                 flex
@@ -128,6 +128,7 @@ export default async function CategoryPage({ params }: Props) {
           })}
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

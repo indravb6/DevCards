@@ -14,14 +14,14 @@ urlpatterns = [
         name="category-list",
     ),
     path(
-        "categories/<uuid:category_id>/skills/",
+        "categories/<str:category_slug>/skills/",
         SkillListView.as_view(),
         name="skill-list",
     ),
     path(
-        "skills/<uuid:skill_id>/flashcards/",
+        "skills/<str:skill_slug>/flashcards/",
         FlashCardListView.as_view(),
         name="flashcard-list",
     ),
-    path("skills/<uuid:skill_id>", SkillDetailView.as_view()),
+    path("skills/<str:skill_slug>/", SkillDetailView.as_view()),
 ]

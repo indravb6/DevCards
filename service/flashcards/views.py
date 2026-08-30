@@ -27,13 +27,13 @@ class SkillListView(ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return Skill.objects.filter(category_id=self.kwargs["category_id"])
+        return Skill.objects.filter(category__slug=self.kwargs["category_slug"])
 
 
 class SkillDetailView(APIView):
-    def get(self, request, skill_id):
+    def get(self, request, skill_slug):
         try:
-            skill = Skill.objects.get(id=skill_id)
+            skill = Skill.objects.get(slug=skill_slug)
         except Skill.DoesNotExist:
             return Response(
                 {"detail": "Skill not found."},
@@ -51,4 +51,4 @@ class FlashCardListView(ListAPIView):
     pagination_class = FlashCardPagination
 
     def get_queryset(self):
-        return FlashCard.objects.filter(skill_id=self.kwargs["skill_id"])
+        return FlashCard.objects.filter(skill__slug=self.kwargs["skill_slug"])

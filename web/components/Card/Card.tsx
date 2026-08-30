@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, motion, useMotionValue, useTransform } from "motion/react";
+import { animate, motion, MotionValue, useMotionValue, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -11,6 +11,7 @@ type CardProps = {
   onNext?: () => void;
   interactive?: boolean;
   blurContent?: boolean;
+  y: MotionValue<number>;
 };
 
 export default function Card({
@@ -20,9 +21,9 @@ export default function Card({
   onNext,
   interactive = true,
   blurContent = false,
+  y,
 }: CardProps) {
   const rotation = useMotionValue(0);
-  const y = useMotionValue(0);
 
   const rotateZ = useTransform(y, [-500, 0, 500], [-6, 0, 6]);
 
@@ -226,7 +227,7 @@ export default function Card({
     ? "text-2xl font-semibold text-zinc-900 blur-md"
     : "text-2xl font-semibold text-zinc-900";
 
-  const answerClass = blurContent ? "text-lg leading-relaxed blur-md" : "text-lg leading-relaxed";
+  const answerClass = blurContent ? "text-lg leading-relaxed blur-md" : "text-sm leading-relaxed";
 
   const smallTextClass = blurContent ? "blur-sm" : "";
 
@@ -284,9 +285,7 @@ export default function Card({
             "
           >
             <div className="flex items-center justify-between">
-              <span className={`text-sm font-medium text-zinc-400 ${smallTextClass}`}>
-                PostgreSQL
-              </span>
+              <span className={`text-sm font-medium text-zinc-400 ${smallTextClass}`}></span>
 
               <span
                 className={`rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-500 ${smallTextClass}`}
@@ -362,7 +361,7 @@ export default function Card({
               </button>
             )}
 
-            <p className={`text-center text-sm text-zinc-500 ${smallTextClass}`}>
+            <p className={`text-center text-sm text-zinc-300 ${smallTextClass}`}>
               Swipe ↑ ↓ for next
             </p>
           </div>

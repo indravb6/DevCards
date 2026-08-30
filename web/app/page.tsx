@@ -2,6 +2,8 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 import { api } from "@/lib/api";
+import Footer from "../components/Footer/Footer";
+import { getIcon } from "../lib/icons";
 
 export default async function HomePage() {
   const categories = await api.getCategories();
@@ -25,11 +27,13 @@ export default async function HomePage() {
 
         {/* Categories */}
         <div className="space-y-2">
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/categories/${category.id}`}
-              className="
+          {categories.map((category) => {
+            const Icon = getIcon(category.icon);
+            return (
+              <Link
+                key={category.id}
+                href={`/${category.slug}`}
+                className="
                 group
                 flex
                 items-center
@@ -45,10 +49,10 @@ export default async function HomePage() {
                 hover:border-zinc-300
                 hover:shadow-sm
               "
-            >
-              {/* Icon */}
-              <div
-                className="
+              >
+                {/* Icon */}
+                <div
+                  className="
                   flex
                   h-11
                   w-11
@@ -62,31 +66,31 @@ export default async function HomePage() {
                   group-hover:bg-zinc-900
                   group-hover:text-white
                 "
-              >
-                <BookOpen size={21} strokeWidth={1.8} />
-              </div>
+                >
+                  <Icon size={21} strokeWidth={1.8} />
+                </div>
 
-              {/* Content */}
-              <div className="flex-1">
-                <h2 className="font-medium text-zinc-900">{category.name}</h2>
+                {/* Name */}
+                <div className="flex-1">
+                  <h2 className="font-medium text-zinc-900">{category.name}</h2>
+                </div>
 
-                <p className="mt-0.5 text-xs text-zinc-400">Explore skills</p>
-              </div>
-
-              {/* Arrow */}
-              <ArrowRight
-                size={18}
-                className="
+                {/* Arrow */}
+                <ArrowRight
+                  size={18}
+                  className="
                   text-zinc-300
                   transition
                   group-hover:translate-x-1
                   group-hover:text-zinc-600
                 "
-              />
-            </Link>
-          ))}
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

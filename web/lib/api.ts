@@ -19,12 +19,12 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  getCategories: () => request<CategoryData[]>("/api/categories/"),
+  getCategories: () => request<CategoryData[]>("/categories/"),
 
-  getSkills: (categoryId: string) => request<SkillData[]>(`/api/categories/${categoryId}/skills/`),
+  getSkills: (categorySlug: string) => request<SkillData[]>(`/categories/${categorySlug}/skills/`),
 
-  getSkill: (skillId: string) => request<SkillData>(`/api/skills/${skillId}`),
+  getSkill: (skillSlug: string) => request<SkillData>(`/skills/${skillSlug}/`),
 
-  getFlashcards: (skillId: string, page: number = 1) =>
-    request<PaginatedResponse<FlashCardData>>(`/api/skills/${skillId}/flashcards/?page=${page}`),
+  getFlashcards: (skillSlug: string, page: number = 1) =>
+    request<PaginatedResponse<FlashCardData>>(`/skills/${skillSlug}/flashcards/?page=${page}`),
 };

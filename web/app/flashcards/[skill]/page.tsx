@@ -5,11 +5,11 @@ export default async function FlashcardsPage({
   params,
 }: {
   params: Promise<{
-    skillId: string;
+    skill: string;
   }>;
 }) {
-  const { skillId } = await params;
-  const skill = await api.getSkill(skillId);
+  const { skill: skillSlug } = await params;
+  const skill = await api.getSkill(skillSlug);
 
   return <FlashCard skill={skill} />;
 }

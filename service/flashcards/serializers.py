@@ -10,9 +10,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class SkillSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+
     class Meta:
         model = Skill
-        fields = ["id", "name", "icon", "slug"]
+        fields = ["id", "name", "icon", "slug", "category"]
 
 
 class FlashCardSerializer(serializers.ModelSerializer):

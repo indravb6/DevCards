@@ -17,6 +17,7 @@ export interface SkillData {
   name: string;
   slug: string;
   icon: string;
+  category: CategoryData;
 }
 
 export interface FlashCardData {
