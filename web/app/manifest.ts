@@ -6,6 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "DevCards",
     description: "Learn. Review. Build.",
     start_url: "/",
+    scope: "/",
     display: "standalone",
     background_color: "#fafafa",
     theme_color: "#18181b",
