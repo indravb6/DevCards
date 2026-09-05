@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CardStack from "@/components/CardStack/CardStack";
 import { animate } from "motion";
 import { useMotionValue } from "motion/react";
+import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import { api } from "../../lib/api";
 import { FlashCardData, SkillData } from "../../lib/model";
 
@@ -23,7 +24,6 @@ export default function FlashCard({ skill }: FlashCardProps) {
 
   const y = useMotionValue(0);
 
-  // NEW
   const [hasMore, setHasMore] = useState(true);
 
   /*
@@ -108,7 +108,6 @@ export default function FlashCard({ skill }: FlashCardProps) {
    */
   const handleNext = () => {
     setCurrentIndex((current) => current + 1);
-
     y.set(0);
   };
 
@@ -117,7 +116,6 @@ export default function FlashCard({ skill }: FlashCardProps) {
    */
   const handlePrev = () => {
     setCurrentIndex((current) => Math.max(current - 1, 0));
-
     y.set(0);
   };
 
@@ -128,47 +126,46 @@ export default function FlashCard({ skill }: FlashCardProps) {
 
   if (isFinished) {
     return (
-      <main className="min-h-screen bg-zinc-50">
+      <main className="min-h-screen bg-background text-foreground">
         <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-6 py-8">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="relative flex items-center justify-between">
             <a
               href={`/${skill.category.slug}`}
               className="
-            flex
-            items-center
-            gap-2
-            text-sm
-            text-zinc-400
-            transition
-            hover:text-zinc-700
-          "
+                flex
+                items-center
+                gap-2
+                text-sm
+                text-muted-foreground
+                transition
+                hover:text-foreground
+              "
             >
               <ArrowLeft size={16} />
 
               <span className="capitalize">{skill.name}</span>
             </a>
 
-            <span className="text-sm text-zinc-400">
-              {isFinished
-                ? `${cards.length} / ${cards.length}`
-                : `${currentIndex + 1} / ${cards.length}`}
+            {/* Center */}
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <ThemeToggle />
+            </div>
+
+            <span className="text-sm text-muted-foreground">
+              {cards.length} / {cards.length}
             </span>
           </div>
 
-          {/* Card / Completed */}
+          {/* Completed */}
           <div className="flex flex-1 items-center justify-center">
-            {isFinished ? (
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4 text-4xl">🎉</div>
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 text-4xl">🎉</div>
 
-                <h1 className="text-xl font-semibold text-zinc-900">All cards completed</h1>
+              <h1 className="text-xl font-semibold text-foreground">All cards completed</h1>
 
-                <p className="mt-2 text-sm text-zinc-500">You've finished this deck.</p>
-              </div>
-            ) : (
-              <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} y={y} />
-            )}
+              <p className="mt-2 text-sm text-muted-foreground">You've finished this deck.</p>
+            </div>
           </div>
 
           {/* Navigation */}
@@ -177,14 +174,14 @@ export default function FlashCard({ skill }: FlashCardProps) {
               type="button"
               onClick={handlePrev}
               className="
-            text-sm
-            text-zinc-400
-            transition
-            hover:text-zinc-900
-            disabled:pointer-events-none
-            disabled:opacity-20
-            cursor-pointer
-          "
+                cursor-pointer
+                text-sm
+                text-muted-foreground
+                transition
+                hover:text-foreground
+                disabled:pointer-events-none
+                disabled:opacity-20
+              "
             >
               ← Previous
             </button>
@@ -194,14 +191,14 @@ export default function FlashCard({ skill }: FlashCardProps) {
               onClick={handleNext}
               disabled={isFinished}
               className="
-            text-sm
-            text-zinc-400
-            transition
-            hover:text-zinc-900
-            disabled:pointer-events-none
-            disabled:opacity-20
-            cursor-pointer
-          "
+                cursor-pointer
+                text-sm
+                text-muted-foreground
+                transition
+                hover:text-foreground
+                disabled:pointer-events-none
+                disabled:opacity-20
+              "
             >
               Next →
             </button>
@@ -216,18 +213,17 @@ export default function FlashCard({ skill }: FlashCardProps) {
    */
   if (cards.length === 0) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-zinc-50">
-        <p className="text-sm text-zinc-400">Loading cards...</p>
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <p className="text-sm text-muted-foreground">Loading cards...</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-zinc-50">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-6 py-8">
         {/* Header */}
-
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-between">
           <a
             href={`/${skill.category.slug}`}
             className="
@@ -235,34 +231,37 @@ export default function FlashCard({ skill }: FlashCardProps) {
               items-center
               gap-2
               text-sm
-              text-zinc-400
+              text-muted-foreground
               transition
-              hover:text-zinc-700
+              hover:text-foreground
             "
           >
             <ArrowLeft size={16} />
             <span className="capitalize">{skill.name}</span>
           </a>
 
-          <span className="text-sm text-zinc-400">
+          {/* Center */}
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <ThemeToggle />
+          </div>
+
+          <span className="text-sm text-muted-foreground">
             {currentIndex + 1} / {cards.length}
           </span>
         </div>
-
         {/* Card */}
-
         <div className="flex flex-1 items-center justify-center">
           <CardStack cards={cards} currentIndex={currentIndex} onNext={handleNext} y={y} />
         </div>
 
         {/* Navigation */}
-
         <div className="flex items-center justify-center gap-6 pb-4">
           <button
             type="button"
             onClick={async () => {
               handlePrev();
               y.set(-900);
+
               await animate(y, 0, {
                 duration: 0.2,
                 ease: "easeIn",
@@ -270,13 +269,13 @@ export default function FlashCard({ skill }: FlashCardProps) {
             }}
             disabled={currentIndex === 0}
             className="
+              cursor-pointer
               text-sm
-              text-zinc-400
+              text-muted-foreground
               transition
-              hover:text-zinc-900
+              hover:text-foreground
               disabled:pointer-events-none
               disabled:opacity-20
-              cursor-pointer
             "
           >
             ← Previous
@@ -293,11 +292,11 @@ export default function FlashCard({ skill }: FlashCardProps) {
               handleNext();
             }}
             className="
-              text-sm
-              text-zinc-400
-              transition
-              hover:text-zinc-900
               cursor-pointer
+              text-sm
+              text-muted-foreground
+              transition
+              hover:text-foreground
             "
           >
             Next →

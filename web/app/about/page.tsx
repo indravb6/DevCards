@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-zinc-50 px-6 py-12">
+    <main className="min-h-screen bg-background px-6 py-12 text-foreground">
       <div className="mx-auto max-w-2xl">
         {/* Back */}
 
@@ -15,9 +15,9 @@ export default function AboutPage() {
             items-center
             gap-2
             text-sm
-            text-zinc-500
+            text-muted-foreground
             transition-colors
-            hover:text-zinc-900
+            hover:text-foreground
           "
         >
           <ArrowLeft className="size-4" />
@@ -67,10 +67,10 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-950">DevCards</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">DevCards</h1>
           </div>
 
-          <p className="mt-5 text-lg leading-8 text-zinc-600">
+          <p className="mt-5 text-lg leading-8 text-muted-foreground">
             A simple flashcard app for software engineers to learn, review, and strengthen their
             understanding of technical concepts.
           </p>
@@ -79,9 +79,9 @@ export default function AboutPage() {
         {/* What is DevCards */}
 
         <section className="mt-14">
-          <h2 className="text-xl font-semibold text-zinc-950">What is DevCards?</h2>
+          <h2 className="text-xl font-semibold text-foreground">What is DevCards?</h2>
 
-          <p className="mt-4 leading-7 text-zinc-600">
+          <p className="mt-4 leading-7 text-muted-foreground">
             DevCards turns software engineering concepts into small, focused flashcards. Instead of
             reading everything at once, you can review one concept at a time and build your
             knowledge gradually.
@@ -91,32 +91,32 @@ export default function AboutPage() {
         {/* Philosophy */}
 
         <section className="mt-12 grid gap-5 sm:grid-cols-3">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-            <Brain className="size-5 text-zinc-700" />
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <Brain className="size-5 text-muted-foreground" />
 
-            <h3 className="mt-4 font-semibold text-zinc-900">Learn</h3>
+            <h3 className="mt-4 font-semibold text-card-foreground">Learn</h3>
 
-            <p className="mt-2 text-sm leading-6 text-zinc-500">
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Discover concepts across the software engineering ecosystem.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-            <BookOpen className="size-5 text-zinc-700" />
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <BookOpen className="size-5 text-muted-foreground" />
 
-            <h3 className="mt-4 font-semibold text-zinc-900">Review</h3>
+            <h3 className="mt-4 font-semibold text-card-foreground">Review</h3>
 
-            <p className="mt-2 text-sm leading-6 text-zinc-500">
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Reinforce your knowledge with short, focused questions.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-            <Code2 className="size-5 text-zinc-700" />
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <Code2 className="size-5 text-muted-foreground" />
 
-            <h3 className="mt-4 font-semibold text-zinc-900">Build</h3>
+            <h3 className="mt-4 font-semibold text-card-foreground">Build</h3>
 
-            <p className="mt-2 text-sm leading-6 text-zinc-500">
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Understand the ideas behind the technology you use.
             </p>
           </div>
@@ -124,9 +124,9 @@ export default function AboutPage() {
 
         {/* Footer */}
 
-        <div className="mt-16 border-t border-zinc-200 pt-6">
+        <div className="mt-16 border-t border-border pt-6">
           <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-zinc-400">Built for developers who keep learning.</p>
+            <p className="text-sm text-muted-foreground">Built for developers who keep learning.</p>
 
             <a
               href="https://github.com/indravb6/devCards"
@@ -138,17 +138,16 @@ export default function AboutPage() {
                 gap-2
                 rounded-full
                 border
-                border-zinc-200
-                bg-white
+                border-border
+                bg-card
                 px-4
                 py-2
                 text-sm
                 font-medium
-                text-zinc-600
+                text-muted-foreground
                 transition
-                hover:border-zinc-300
-                hover:bg-zinc-100
-                hover:text-zinc-900
+                hover:bg-muted
+                hover:text-foreground
               "
             >
               <GitBranch className="size-4" />
