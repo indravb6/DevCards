@@ -69,3 +69,38 @@ class FlashCard(BaseModel):
 
     def __str__(self):
         return self.question[:80]
+
+
+class User(BaseModel):
+    user_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        db_table = "users"
+
+    def __str__(self):
+        return str(self.user_id)
+
+
+class UserFlashCardProgress(BaseModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="flashcard_progress",
+    )
+    flashcard = models.ForeignKey(
+        FlashCard,
+        on_delete=models.CASCADE,
+        related_name="user_progress",
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=[("learned", "Learned")],
+        default="learned",
+    )
+
+    class Meta:
+        db_table = "user_flashcard_progress"
+        unique_together = ("user", "flashcard")
+
+    def __str__(self):
+        return f"{self.user.user_id} - {self.flashcard.id} - Learned: {self.is_learned}"

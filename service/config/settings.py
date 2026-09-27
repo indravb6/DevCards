@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 load_dotenv()
 
@@ -56,6 +57,11 @@ INSTALLED_APPS = [
     # Local
     "flashcards",
 ]
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "x-user-id",
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

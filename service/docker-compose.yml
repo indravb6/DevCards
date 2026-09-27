@@ -13,6 +13,19 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  scheduler:
+    build: .
+    container_name: devcards-scheduler
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    command: python manage.py scheduler
+
   postgres:
     image: postgres:17
     container_name: devcards-postgres

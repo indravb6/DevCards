@@ -21,6 +21,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
   const [cards, setCards] = useState<FlashCardData[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [page, setPage] = useState(1);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const y = useMotionValue(0);
 
@@ -42,6 +43,8 @@ export default function FlashCard({ skill }: FlashCardProps) {
       setCurrentIndex(0);
 
       setHasMore(page < Math.ceil(newCards.count / PAGE_SIZE));
+
+      setInitialLoading(false);
     };
 
     loadInitialCards();
@@ -103,10 +106,24 @@ export default function FlashCard({ skill }: FlashCardProps) {
     };
   }, [currentIndex, cards.length, page, hasMore]);
 
+  const handleRestart = async () => {
+    setInitialLoading(true);
+    await api.restartFlashcards(skill.slug);
+    setCurrentIndex(0);
+    setPage(1);
+    setHasMore(true);
+
+    const newCards = await api.getFlashcards(skill.slug, 1);
+
+    setCards(newCards.results);
+    setInitialLoading(false);
+  };
+
   /*
    * Next card
    */
   const handleNext = () => {
+    api.finishFlashcard(cards[currentIndex].id);
     setCurrentIndex((current) => current + 1);
     y.set(0);
   };
@@ -122,7 +139,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
   /*
    * Finished
    */
-  const isFinished = cards.length > 0 && currentIndex >= cards.length;
+  const isFinished = cards.length >= 0 && currentIndex >= cards.length && !initialLoading;
 
   if (isFinished) {
     return (
@@ -165,6 +182,13 @@ export default function FlashCard({ skill }: FlashCardProps) {
               <h1 className="text-xl font-semibold text-foreground">All cards completed</h1>
 
               <p className="mt-2 text-sm text-muted-foreground">You've finished this deck.</p>
+              <button
+                type="button"
+                onClick={handleRestart}
+                className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/90 cursor-pointer disabled:pointer-events-none disabled:opacity-50"
+              >
+                Restart this deck
+              </button>
             </div>
           </div>
 
@@ -173,6 +197,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
             <button
               type="button"
               onClick={handlePrev}
+              disabled={cards.length === 0}
               className="
                 cursor-pointer
                 text-sm
@@ -211,7 +236,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
   /*
    * Loading
    */
-  if (cards.length === 0) {
+  if (initialLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-background">
         <p className="text-sm text-muted-foreground">Loading cards...</p>
@@ -267,7 +292,7 @@ export default function FlashCard({ skill }: FlashCardProps) {
                 ease: "easeIn",
               });
             }}
-            disabled={currentIndex === 0}
+            disabled={currentIndex === 0 || cards.length === 0 || initialLoading}
             className="
               cursor-pointer
               text-sm
