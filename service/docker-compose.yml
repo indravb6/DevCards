@@ -24,7 +24,7 @@ services:
       postgres:
         condition: service_healthy
     restart: unless-stopped
-    command: python manage.py scheduler
+    entrypoint: ["python", "manage.py", "scheduler"]
 
   postgres:
     image: postgres:17

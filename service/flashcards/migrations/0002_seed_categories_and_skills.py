@@ -297,7 +297,10 @@ def seed_data(apps, schema_editor):
         category, _ = Category.objects.get_or_create(
             name=category_name,
             defaults={
-                "slug": category_name.lower().replace(" ", "-"),
+                "slug": category_name.lower()
+                .replace(" ", "-")
+                .replace("&", "and")
+                .replace("/", "-"),
                 "icon": category_data["icon"],
             },
         )
