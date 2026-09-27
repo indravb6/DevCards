@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "**/web": true,
+    "**/service": true
+  }
+}
