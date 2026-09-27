@@ -21,6 +21,11 @@ urlpatterns = [
         name="skill-list",
     ),
     path(
+        "skills/",
+        SkillListView.as_view(),
+        name="skill-list-all",
+    ),
+    path(
         "skills/<str:skill_slug>/flashcards/",
         FlashCardListView.as_view(),
         name="flashcard-list",

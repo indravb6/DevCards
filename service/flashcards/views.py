@@ -28,6 +28,11 @@ class SkillListView(ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
+        if "category_slug" not in self.kwargs:
+            return Skill.objects.filter(
+                name__icontains=self.request.query_params.get("search", "")
+            ).order_by("name")[:10]
+
         return Skill.objects.filter(category__slug=self.kwargs["category_slug"])
 
 

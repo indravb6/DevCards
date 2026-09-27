@@ -40,6 +40,8 @@ export const api = {
 
   getSkills: (categorySlug: string) => request<SkillData[]>(`/categories/${categorySlug}/skills/`),
 
+  searchSkills: (searchTerm: string) => request<SkillData[]>(`/skills/?search=${searchTerm}`),
+
   getSkill: (skillSlug: string) => request<SkillData>(`/skills/${skillSlug}/`),
 
   getFlashcards: (skillSlug: string, page: number = 1) =>

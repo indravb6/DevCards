@@ -4,6 +4,7 @@ import Link from "next/link";
 import { api } from "@/lib/api";
 
 import Footer from "../components/Footer/Footer";
+import SkillSearch from "../components/SkillSearch/SkillSearch";
 import ThemeToggle from "../components/ThemeToggle/ThemeToggle";
 import { getIcon } from "../lib/icons";
 
@@ -30,6 +31,8 @@ export default async function HomePage() {
           </h1>
 
           <p className="mt-2 text-sm text-muted-foreground">Pick a category to start learning.</p>
+
+          <SkillSearch />
         </div>
 
         {/* Categories */}
