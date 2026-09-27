@@ -45,6 +45,7 @@ jobs:
               cd ~/devcards/web
 
               npm ci
+              rm -rf .next
               npm run build
 
               pm2 reload devcards-client || pm2 start npm --name devcards-client -- start -- -p 4000
